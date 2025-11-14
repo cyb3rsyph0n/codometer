@@ -66,6 +66,47 @@ describe('output-formatter', () => {
     });
   });
 
+  describe('formatJsonOutput', () => {
+    test('should format JSON output correctly', () => {
+      const { formatJsonOutput } = require('./output-formatter');
+      const output = formatJsonOutput(mockResult);
+      const parsed = JSON.parse(output);
+
+      expect(parsed).toHaveProperty('summary');
+      expect(parsed).toHaveProperty('languages');
+      expect(parsed.summary.totalFiles).toBe(10);
+      expect(parsed.summary.linesOfCode).toBe(500);
+      expect(parsed.summary.linesOfDocumentation).toBe(150);
+      expect(parsed.summary.commentLines).toBe(100);
+      expect(parsed.summary.markdownLines).toBe(50);
+      expect(Array.isArray(parsed.languages)).toBe(true);
+      expect(parsed.languages).toHaveLength(2);
+    });
+
+    test('should sort languages by lines of code', () => {
+      const { formatJsonOutput } = require('./output-formatter');
+      const output = formatJsonOutput(mockResult);
+      const parsed = JSON.parse(output);
+
+      expect(parsed.languages[0].language).toBe('JavaScript/TypeScript');
+      expect(parsed.languages[0].linesOfCode).toBe(40);
+      expect(parsed.languages[1].language).toBe('Markdown');
+      expect(parsed.languages[1].linesOfCode).toBe(0);
+    });
+
+    test('should include all language properties', () => {
+      const { formatJsonOutput } = require('./output-formatter');
+      const output = formatJsonOutput(mockResult);
+      const parsed = JSON.parse(output);
+
+      const lang = parsed.languages[0];
+      expect(lang).toHaveProperty('language');
+      expect(lang).toHaveProperty('files');
+      expect(lang).toHaveProperty('linesOfCode');
+      expect(lang).toHaveProperty('commentLines');
+    });
+  });
+
   describe('showProgress', () => {
     test('should not fail with zero total', () => {
       // Just make sure it doesn't crash

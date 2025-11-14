@@ -24,7 +24,7 @@ export class Analyzer {
       fileMetrics.push(metrics);
 
       processed++;
-      if (!this.options.verbose && files.length > 10) {
+      if (!this.options.verbose && !this.options.silent && files.length > 10) {
         showProgress(processed, files.length);
       }
     }

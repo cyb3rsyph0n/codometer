@@ -38,4 +38,25 @@ describe('CLI Integration Tests', () => {
     expect(stdout).toContain('Code Metrics Summary');
     expect(stdout).toContain('Files:');
   }, 10000);
+
+  test('should output JSON when --output-json flag is used', async () => {
+    const srcPath = join(__dirname, '../../src');
+    const { stdout } = await execAsync(`node ${cliPath} ${srcPath} --output-json`);
+    
+    // Should be valid JSON
+    const parsed = JSON.parse(stdout);
+    
+    expect(parsed).toHaveProperty('summary');
+    expect(parsed).toHaveProperty('languages');
+    expect(parsed.summary).toHaveProperty('totalFiles');
+    expect(parsed.summary).toHaveProperty('linesOfCode');
+    expect(parsed.summary).toHaveProperty('linesOfDocumentation');
+    expect(parsed.summary).toHaveProperty('commentLines');
+    expect(parsed.summary).toHaveProperty('markdownLines');
+    expect(Array.isArray(parsed.languages)).toBe(true);
+    
+    // Should not contain progress output or text formatting
+    expect(stdout).not.toContain('Code Metrics Summary');
+    expect(stdout).not.toContain('Progress:');
+  }, 10000);
 });

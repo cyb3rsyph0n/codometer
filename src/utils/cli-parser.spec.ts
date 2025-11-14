@@ -41,6 +41,11 @@ describe('parseCliArgs', () => {
     expect(options.version).toBe(true);
   });
 
+  test('should parse --output-json flag', () => {
+    const options = parseCliArgs(['--output-json']);
+    expect(options.outputJson).toBe(true);
+  });
+
   test('should parse multiple flags', () => {
     const options = parseCliArgs(['./src', '--verbose', '--ignore-gitignore']);
     expect(options.path).toBe('./src');
@@ -56,6 +61,7 @@ describe('parseCliArgs', () => {
     expect(options.verbose).toBe(false);
     expect(options.help).toBe(false);
     expect(options.version).toBe(false);
+    expect(options.outputJson).toBe(false);
   });
 });
 
@@ -67,6 +73,7 @@ describe('getHelpText', () => {
     expect(helpText).toContain('Usage:');
     expect(helpText).toContain('Options:');
     expect(helpText).toContain('--ignore-gitignore');
+    expect(helpText).toContain('--output-json');
     expect(helpText).toContain('Examples:');
   });
 });

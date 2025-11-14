@@ -57,6 +57,31 @@ export function formatVerboseOutput(result: AnalysisResult): string {
   return lines.join('\n');
 }
 
+export function formatJsonOutput(result: AnalysisResult): string {
+  // Convert language breakdown Map to array of objects
+  const languageBreakdown = Array.from(result.languageBreakdown.entries())
+    .sort((a, b) => b[1].linesOfCode - a[1].linesOfCode)
+    .map(([language, metrics]) => ({
+      language,
+      files: metrics.files,
+      linesOfCode: metrics.linesOfCode,
+      commentLines: metrics.commentLines,
+    }));
+
+  const output = {
+    summary: {
+      totalFiles: result.totalFiles,
+      linesOfCode: result.linesOfCode,
+      linesOfDocumentation: result.linesOfDocumentation,
+      commentLines: result.commentLines,
+      markdownLines: result.markdownLines,
+    },
+    languages: languageBreakdown,
+  };
+
+  return JSON.stringify(output, null, 2);
+}
+
 export function showProgress(current: number, total: number): void {
   if (total === 0) return;
 

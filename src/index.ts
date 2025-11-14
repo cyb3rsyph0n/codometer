@@ -5,7 +5,7 @@ import { resolve } from 'path';
 import { Analyzer } from './core/analyzer';
 import { ScanOptions } from './core/types';
 import { parseCliArgs, getHelpText } from './utils/cli-parser';
-import { formatSummary, formatVerboseOutput } from './utils/output-formatter';
+import { formatSummary, formatVerboseOutput, formatJsonOutput } from './utils/output-formatter';
 import { EXIT_CODES } from './utils/exit-codes';
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -47,17 +47,22 @@ async function main() {
     includeHidden: options.includeHidden,
     verbose: options.verbose,
     maxFileSize: MAX_FILE_SIZE,
+    silent: options.outputJson,
   };
 
   try {
     const analyzer = new Analyzer(scanOptions);
     const result = await analyzer.analyze();
 
-    if (options.verbose) {
-      console.log(formatVerboseOutput(result));
-    }
+    if (options.outputJson) {
+      console.log(formatJsonOutput(result));
+    } else {
+      if (options.verbose) {
+        console.log(formatVerboseOutput(result));
+      }
 
-    console.log(formatSummary(result));
+      console.log(formatSummary(result));
+    }
 
     process.exit(EXIT_CODES.SUCCESS);
   } catch (error) {
