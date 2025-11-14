@@ -8,6 +8,8 @@ export function parseCliArgs(args: string[]): CLIOptions {
     verbose: false,
     help: false,
     version: false,
+    outputJson: false,
+    silent: false,
   };
 
   for (let i = 0; i < args.length; i++) {
@@ -25,6 +27,10 @@ export function parseCliArgs(args: string[]): CLIOptions {
       options.includeHidden = true;
     } else if (arg === '--verbose') {
       options.verbose = true;
+    } else if (arg === '--output-json') {
+      options.outputJson = true;
+    } else if (arg === '--silent') {
+      options.silent = true;
     } else if (arg.startsWith('--exclude-tests=')) {
       options.excludeTests = arg.substring('--exclude-tests='.length);
     } else if (!arg.startsWith('-')) {
@@ -50,6 +56,8 @@ Options:
   --follow-symlinks       Follow symbolic links
   --include-hidden        Include hidden files and directories
   --verbose               Show detailed per-file metrics
+  --output-json           Output results in JSON format
+  --silent                Suppress progress output (useful for scripts)
   -h, --help              Show this help message
   -v, --version           Show version number
 
@@ -58,5 +66,6 @@ Examples:
   codometer ./src
   codometer --exclude-tests="*.spec.ts,**/__tests__/**"
   codometer --ignore-gitignore --verbose
+  codometer --output-json --silent
 `.trim();
 }

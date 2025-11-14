@@ -1,4 +1,28 @@
-import { AnalysisResult } from '../core/types';
+import { AnalysisResult, JsonOutput } from '../core/types';
+
+export function formatJsonOutput(result: AnalysisResult): string {
+  const sortedLanguages = Array.from(result.languageBreakdown.entries())
+    .sort((a, b) => b[1].linesOfCode - a[1].linesOfCode)
+    .map(([name, metrics]) => ({
+      name,
+      files: metrics.files,
+      linesOfCode: metrics.linesOfCode,
+      commentLines: metrics.commentLines,
+    }));
+
+  const jsonOutput: JsonOutput = {
+    summary: {
+      totalFiles: result.totalFiles,
+      linesOfCode: result.linesOfCode,
+      linesOfDocumentation: result.linesOfDocumentation,
+      commentLines: result.commentLines,
+      markdownLines: result.markdownLines,
+    },
+    languages: sortedLanguages,
+  };
+
+  return JSON.stringify(jsonOutput, null, 2);
+}
 
 export function formatSummary(result: AnalysisResult): string {
   const lines: string[] = [];
@@ -57,8 +81,8 @@ export function formatVerboseOutput(result: AnalysisResult): string {
   return lines.join('\n');
 }
 
-export function showProgress(current: number, total: number): void {
-  if (total === 0) return;
+export function showProgress(current: number, total: number, silent = false): void {
+  if (silent || total === 0) return;
 
   const percentage = Math.floor((current / total) * 100);
   const barLength = 40;

@@ -4,4 +4,6 @@ export const EXIT_CODES = {
   INVALID_ARGS: 2,
   PATH_NOT_FOUND: 3,
   PERMISSION_ERROR: 4,
+  SCAN_ERROR: 5,
+  ANALYSIS_ERROR: 6,
 } as const;

@@ -25,7 +25,7 @@ export class Analyzer {
 
       processed++;
       if (!this.options.verbose && files.length > 10) {
-        showProgress(processed, files.length);
+        showProgress(processed, files.length, this.options.silent);
       }
     }
 

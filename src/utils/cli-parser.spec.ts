@@ -48,6 +48,37 @@ describe('parseCliArgs', () => {
     expect(options.ignoreGitignore).toBe(true);
   });
 
+  test('should parse --output-json flag', () => {
+    const options = parseCliArgs(['--output-json']);
+    expect(options.outputJson).toBe(true);
+  });
+
+  test('should parse --silent flag', () => {
+    const options = parseCliArgs(['--silent']);
+    expect(options.silent).toBe(true);
+  });
+
+  test('should parse --output-json and --silent together', () => {
+    const options = parseCliArgs(['--output-json', '--silent']);
+    expect(options.outputJson).toBe(true);
+    expect(options.silent).toBe(true);
+  });
+
+  test('should parse all flags together', () => {
+    const options = parseCliArgs([
+      './src',
+      '--verbose',
+      '--ignore-gitignore',
+      '--output-json',
+      '--silent',
+    ]);
+    expect(options.path).toBe('./src');
+    expect(options.verbose).toBe(true);
+    expect(options.ignoreGitignore).toBe(true);
+    expect(options.outputJson).toBe(true);
+    expect(options.silent).toBe(true);
+  });
+
   test('should have default values', () => {
     const options = parseCliArgs([]);
     expect(options.ignoreGitignore).toBe(false);
@@ -56,6 +87,8 @@ describe('parseCliArgs', () => {
     expect(options.verbose).toBe(false);
     expect(options.help).toBe(false);
     expect(options.version).toBe(false);
+    expect(options.outputJson).toBe(false);
+    expect(options.silent).toBe(false);
   });
 });
 
@@ -67,6 +100,8 @@ describe('getHelpText', () => {
     expect(helpText).toContain('Usage:');
     expect(helpText).toContain('Options:');
     expect(helpText).toContain('--ignore-gitignore');
+    expect(helpText).toContain('--output-json');
+    expect(helpText).toContain('--silent');
     expect(helpText).toContain('Examples:');
   });
 });

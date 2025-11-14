@@ -56,6 +56,9 @@ codometer --exclude-tests="*.spec.ts,**/__tests__/**"
 # Verbose output with per-file details
 codometer --verbose
 
+# JSON output for scripting
+codometer --output-json --silent
+
 # Show help
 codometer --help
 ```
@@ -91,10 +94,14 @@ console.log(`Lines of Documentation: ${result.linesOfDocumentation}`);
 | `--follow-symlinks` | Follow symbolic links during scan |
 | `--include-hidden` | Include hidden files and directories |
 | `--verbose` | Show detailed per-file metrics |
+| `--output-json` | Output results in JSON format for programmatic consumption |
+| `--silent` | Suppress progress output (useful for scripts and pipelines) |
 | `-h, --help` | Show help message |
 | `-v, --version` | Show version number |
 
 ## Output Format
+
+### Text Output (Default)
 
 ```
 ==================================================
@@ -126,6 +133,79 @@ Markdown:
   Lines of Code: 0
   Comment Lines: 238
 ```
+
+### JSON Output
+
+When using `--output-json`, the output is structured for programmatic consumption:
+
+```json
+{
+  "summary": {
+    "totalFiles": 42,
+    "linesOfCode": 3521,
+    "linesOfDocumentation": 892,
+    "commentLines": 654,
+    "markdownLines": 238
+  },
+  "languages": [
+    {
+      "name": "JavaScript/TypeScript",
+      "files": 35,
+      "linesOfCode": 2890,
+      "commentLines": 543
+    },
+    {
+      "name": "Python",
+      "files": 5,
+      "linesOfCode": 631,
+      "commentLines": 111
+    }
+  ]
+}
+```
+
+### Integration Examples
+
+**Shell Scripts:**
+```bash
+# Get total lines of code
+LOC=$(codometer --output-json --silent | node -e "console.log(JSON.parse(require('fs').readFileSync(0)).summary.linesOfCode)")
+
+# Check if codebase exceeds threshold
+if [ "$LOC" -gt 10000 ]; then
+  echo "Warning: Codebase has grown to $LOC lines"
+fi
+```
+
+**CI/CD Pipelines:**
+```yaml
+# Example GitHub Actions workflow
+- name: Analyze code metrics
+  run: |
+    npx @nurv-llc/codometer --output-json --silent > metrics.json
+    
+- name: Upload metrics
+  uses: actions/upload-artifact@v3
+  with:
+    name: code-metrics
+    path: metrics.json
+```
+
+## Exit Codes
+
+Codometer uses standard exit codes to indicate success or failure, making it suitable for use in CI/CD pipelines:
+
+| Exit Code | Description |
+|-----------|-------------|
+| `0` | Success - analysis completed without errors |
+| `1` | General error during analysis |
+| `2` | Invalid arguments provided |
+| `3` | Specified path does not exist |
+| `4` | Permission error accessing files |
+| `5` | Error during file scanning |
+| `6` | Error during analysis |
+
+Errors are written to stderr to allow proper separation from results.
 
 ## How It Works
 

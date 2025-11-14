@@ -16,6 +16,7 @@ export interface ScanOptions {
   includeHidden: boolean;
   verbose: boolean;
   maxFileSize: number;
+  silent?: boolean;
 }
 
 export interface LanguageMetrics {
@@ -49,4 +50,22 @@ export interface CLIOptions {
   verbose: boolean;
   help: boolean;
   version: boolean;
+  outputJson?: boolean;
+  silent?: boolean;
+}
+
+export interface JsonOutput {
+  summary: {
+    totalFiles: number;
+    linesOfCode: number;
+    linesOfDocumentation: number;
+    commentLines: number;
+    markdownLines: number;
+  };
+  languages: Array<{
+    name: string;
+    files: number;
+    linesOfCode: number;
+    commentLines: number;
+  }>;
 }
