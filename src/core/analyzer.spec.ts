@@ -8,15 +8,11 @@ describe('Analyzer', () => {
 
   beforeAll(async () => {
     await fs.mkdir(testDir, { recursive: true });
-    
+
     // Create test files
     await fs.writeFile(join(testDir, 'code.js'), 'const x = 1;\nconst y = 2;', 'utf-8');
     await fs.writeFile(join(testDir, 'README.md'), '# Title\n\nContent', 'utf-8');
-    await fs.writeFile(
-      join(testDir, '.gitignore'),
-      'node_modules/\n*.log',
-      'utf-8'
-    );
+    await fs.writeFile(join(testDir, '.gitignore'), 'node_modules/\n*.log', 'utf-8');
   });
 
   afterAll(async () => {

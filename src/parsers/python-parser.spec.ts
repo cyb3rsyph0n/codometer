@@ -17,7 +17,7 @@ describe('PythonParser', () => {
     const content = `x = 1
 y = 2
 z = 3`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(3);
     expect(result.commentLines).toBe(0);
@@ -27,7 +27,7 @@ z = 3`;
     const content = `# This is a comment
 x = 1
 # Another comment`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
     expect(result.commentLines).toBe(2);
@@ -40,7 +40,7 @@ Multiple lines
 """
 def foo():
     pass`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(2);
     expect(result.commentLines).toBe(4);
@@ -50,7 +50,7 @@ def foo():
     const content = `def foo():
     """Single line docstring"""
     pass`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(2);
     expect(result.commentLines).toBe(1);
@@ -58,7 +58,7 @@ def foo():
 
   test('should handle comments in strings', () => {
     const content = `text = "# not a comment"`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
     expect(result.commentLines).toBe(0);

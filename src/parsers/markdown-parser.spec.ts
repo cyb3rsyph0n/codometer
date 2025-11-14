@@ -23,7 +23,7 @@ const x = 1;
 \`\`\`
 
 More content.`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(0);
     expect(result.commentLines).toBeGreaterThan(0);
@@ -34,7 +34,7 @@ More content.`;
 
 
 Content`;
-    
+
     const result = parser.parse(content);
     expect(result.blankLines).toBe(2);
   });

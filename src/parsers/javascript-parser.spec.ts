@@ -19,7 +19,7 @@ describe('JavaScriptParser', () => {
     const content = `const x = 1;
 const y = 2;
 const z = 3;`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(3);
     expect(result.commentLines).toBe(0);
@@ -29,7 +29,7 @@ const z = 3;`;
     const content = `// This is a comment
 const x = 1;
 // Another comment`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
     expect(result.commentLines).toBe(2);
@@ -41,7 +41,7 @@ const x = 1;
  * Another line
  */
 const x = 1;`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
     expect(result.commentLines).toBe(4);
@@ -53,21 +53,21 @@ const x = 1;`;
 const y = 2;
 
 `;
-    
+
     const result = parser.parse(content);
     expect(result.blankLines).toBe(3);
   });
 
   test('should handle inline comments', () => {
     const content = `const x = 1; // inline comment`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
   });
 
   test('should handle comments in strings', () => {
     const content = `const str = "// not a comment";`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
     expect(result.commentLines).toBe(0);
@@ -75,7 +75,7 @@ const y = 2;
 
   test('should handle block comment on single line', () => {
     const content = `/* comment */ const x = 1;`;
-    
+
     const result = parser.parse(content);
     expect(result.commentLines).toBe(1);
   });
@@ -85,7 +85,7 @@ const y = 2;
  * /* nested
  */
 const x = 1;`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
     expect(result.commentLines).toBeGreaterThan(0);
@@ -93,14 +93,14 @@ const x = 1;`;
 
   test('should handle code after inline comment', () => {
     const content = `const x = /* comment */ 1;`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
   });
 
   test('should handle strings with escape characters', () => {
     const content = `const str = "test\\"string";`;
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
     expect(result.commentLines).toBe(0);
@@ -108,7 +108,7 @@ const x = 1;`;
 
   test('should handle template literals', () => {
     const content = 'const str = `// not a comment`;';
-    
+
     const result = parser.parse(content);
     expect(result.codeLines).toBe(1);
     expect(result.commentLines).toBe(0);

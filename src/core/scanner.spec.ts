@@ -10,15 +10,11 @@ describe('Scanner', () => {
     await fs.mkdir(testDir, { recursive: true });
     await fs.mkdir(join(testDir, 'src'), { recursive: true });
     await fs.mkdir(join(testDir, '.hidden'), { recursive: true });
-    
+
     await fs.writeFile(join(testDir, 'file1.txt'), 'content', 'utf-8');
     await fs.writeFile(join(testDir, 'src', 'file2.txt'), 'content', 'utf-8');
     await fs.writeFile(join(testDir, '.hidden', 'file3.txt'), 'content', 'utf-8');
-    await fs.writeFile(
-      join(testDir, '.gitignore'),
-      'ignored.txt\n*.log',
-      'utf-8'
-    );
+    await fs.writeFile(join(testDir, '.gitignore'), 'ignored.txt\n*.log', 'utf-8');
     await fs.writeFile(join(testDir, 'ignored.txt'), 'ignored', 'utf-8');
     await fs.writeFile(join(testDir, 'test.log'), 'log', 'utf-8');
   });

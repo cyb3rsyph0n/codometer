@@ -34,7 +34,7 @@ describe('file-reader', () => {
 
     test('should detect binary files', async () => {
       const testFile = join(testDir, 'binary.bin');
-      const binaryData = Buffer.from([0x00, 0x01, 0x02, 0xFF, 0xFE]);
+      const binaryData = Buffer.from([0x00, 0x01, 0x02, 0xff, 0xfe]);
       await fs.writeFile(testFile, binaryData);
 
       const isBinary = await isBinaryFile(testFile);
