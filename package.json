@@ -7,6 +7,12 @@
   "bin": {
     "codometer": "dist/index.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "jest",
@@ -21,13 +27,31 @@
     "metrics",
     "analysis",
     "lines-of-code",
-    "documentation"
+    "documentation",
+    "code-analysis",
+    "static-analysis",
+    "sloc",
+    "loc",
+    "cloc",
+    "typescript",
+    "javascript",
+    "python",
+    "rust",
+    "csharp",
+    "cpp"
   ],
   "author": "Nurv LLC",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git@github.com:cyb3rsyph0n/codometer.git"
+    "url": "https://github.com/cyb3rsyph0n/codometer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cyb3rsyph0n/codometer/issues"
+  },
+  "homepage": "https://github.com/cyb3rsyph0n/codometer#readme",
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
