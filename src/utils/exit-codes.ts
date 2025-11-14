@@ -1,0 +1,7 @@
+export const EXIT_CODES = {
+  SUCCESS: 0,
+  GENERAL_ERROR: 1,
+  INVALID_ARGS: 2,
+  PATH_NOT_FOUND: 3,
+  PERMISSION_ERROR: 4,
+} as const;
